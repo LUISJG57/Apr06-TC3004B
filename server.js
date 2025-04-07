@@ -1,12 +1,19 @@
-const express = require('express')
+const express = require('express');
+const studentsRoutes = require('./src/routes/student.js');
 
-const studentsRoutes = require('./src/routes/student.js')
+const app = express();
+app.use(express.json());
 
-const app = express(); 
-app.use(express.json())
+// Redirección automática desde la raíz
+app.get('/', (req, res) => {
+  res.redirect('/api/students/getStudentsWithStatus');
+});
 
-app.use('/api/students', studentsRoutes)
+// Tus rutas API existentes
+app.use('/api/students', studentsRoutes);
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT)
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Accede a la ruta principal y serás redirigido automáticamente`);
+});
